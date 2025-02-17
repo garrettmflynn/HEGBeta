@@ -1,14 +1,9 @@
 import { registerDevicePlugins, registerFeaturePlugins, registerFeedbackPlugins, registerScorePlugins } from './src/packages/neuro.sys/core/src/commoners'
 
 // Devices
-import syntheticDevicesPlugin from './src/packages/neuro.sys/plugins/devices/synthetic/index'
-import museDevicePlugin from './src/packages/neuro.sys/plugins/devices/muse/index'
 import hegDevicePlugin from './src/packages/neuro.sys/plugins/devices/heg/index'
 
-import mockDevicesPlugin from './src/packages/neuro.sys/plugins/devices/mocks/index'
-
 // Features
-import bandsPlugin from './src/packages/neuro.sys/plugins/features/bands/index'
 import hegRatioPlugin from './src/packages/neuro.sys/plugins/features/heg/index'
 
 // Feedback
@@ -20,11 +15,7 @@ import spotifyFeedbackPlugin from './src/packages/neuro.sys/plugins/feedback/spo
 import inspectFeedbackPlugin from './src/packages/neuro.sys/plugins/feedback/inspect/index'
 
 // Scores
-import * as alphaScorePlugin from './src/packages/neuro.sys/plugins/scores/alpha/index'
 import * as hegScorePlugin from './src/packages/neuro.sys/plugins/scores/heg/index'
-
-// Examples
-import examplePlugins from './src/packages/neuro.sys/plugins/examples/index'
 
 // Other Plugins
 import * as systemOverlayPlugin from './src/packages/neuro.sys/plugins/other/systemOverlay/index'
@@ -34,8 +25,8 @@ import * as serialPlugin from './src/packages/neuro.sys/plugins/other/devices/se
 import protocolsPlugin from './src/packages/neuro.sys/plugins/other/protocols/index'
 
 
-// const OVERLAY = true
-const OVERLAY = false
+const OVERLAY = true
+// const OVERLAY = false
 
 const TRANSPARENT_WINDOW_SETTINGS = {
     frame: false,
