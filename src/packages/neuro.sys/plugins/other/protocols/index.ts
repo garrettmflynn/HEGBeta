@@ -12,7 +12,7 @@ export default {
             const fs = require('fs')
             const path = require('path')
 
-            const homeDir = path.join(require('os').homedir(), 'neurosys')
+            const homeDir = path.join(require('os').homedir(), 'hegbeta')
             const protocolsDir = path.join(homeDir, 'protocols')
 
             const getProtocolsPath = (name: string) => path.join(protocolsDir, `${name}.json`)

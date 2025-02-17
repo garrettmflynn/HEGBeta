@@ -1,5 +1,5 @@
 {
-  "name": "neurosys",
+  "name": "hegbeta",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/garrettmflynn/neurosys.git"
+    "url": "git+https://github.com/garrettmflynn/HEGBeta.git"
   },
   "author": {
     "name": "Garrett Flynn",

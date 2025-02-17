@@ -47,7 +47,7 @@ const TRANSPARENT_WINDOW_SETTINGS = {
 }
 
 const config = {
-    name: "Neurosys",
+    name: "HEGBeta",
     target: "electron",
 
     icon: "./src/assets/icon.png",
@@ -57,7 +57,6 @@ const config = {
     },
 
     electron: {
-        protocol: { scheme: 'neurosys', privileges: { secure: true, standard: true, supportFetchAPI: true } },
         window: OVERLAY ? TRANSPARENT_WINDOW_SETTINGS : {},
     },
 
@@ -77,54 +76,18 @@ const config = {
 
         // --------------------------------- Optional Plugins --------------------------------- //
         ...registerDevicePlugins({
-            
-            ...examplePlugins.device,
-
-            mockDevices: mockDevicesPlugin,
-
-            // Synthetic Data Streams
-            syntheticDevices: syntheticDevicesPlugin,
-
-            // BLE
-            museDevice: museDevicePlugin,
             hegDevice: hegDevicePlugin,
-
-            // brainflow {
-            //     load: function () {
-            //         const { SERVICES: { brainflow : { url }} } = commoners
-                    
-            //         return {
-            //             get: async (path) => {
-            //                 const endpoint = new URL(path, url)
-            //                 const result = await fetch(endpoint.href)
-            //                 const json = await result.json()
-            //                 return json
-            //             },
-            //             post: async (path, body) => {
-            //                 const endpoint = new URL(path, url)
-            //                 const result = await fetch(endpoint.href, { method: 'POST', body: JSON.stringify(body) })
-            //                 const json = await result.json()
-            //                 return json
-            //             }
-            //         }
-            //     }
-            // },
         }),
             
         ...registerFeaturePlugins({
-            ...examplePlugins.feature,
-
-            bands: bandsPlugin,
             hegRatio: hegRatioPlugin,
         }),
 
         ...registerFeedbackPlugins({
-            ...examplePlugins.feedback,
-
             textFeedback: textFeedbackPlugin,
             cursorFeedback: cursorFeedbackPlugin,
             brightnessFeedback: brightnessFeedbackPlugin,
-            inspectFeedback: inspectFeedbackPlugin,
+            // inspectFeedback: inspectFeedbackPlugin,
             
             // // Experimental Plugins
             // spotifyFeedback: spotifyFeedbackPlugin
@@ -133,8 +96,6 @@ const config = {
         }),
 
         ...registerScorePlugins({
-            ...examplePlugins.score,
-            alphaScore: alphaScorePlugin,
             hegScore: hegScorePlugin,
         }),
     }
