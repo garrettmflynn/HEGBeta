@@ -1,4 +1,4 @@
-import { registerDevicePlugins, registerFeaturePlugins, registerFeedbackPlugins, registerScorePlugins } from './src/packages/neuro.sys/core/src/commoners'
+import { registerDevicePlugins, registerFeaturePlugins, registerOutputPlugins, registerScorePlugins } from './src/packages/neuro.sys/core/src/commoners'
 
 // Devices
 import hegDevicePlugin from './src/packages/neuro.sys/plugins/devices/heg/index'
@@ -6,13 +6,13 @@ import hegDevicePlugin from './src/packages/neuro.sys/plugins/devices/heg/index'
 // Features
 import hegRatioPlugin from './src/packages/neuro.sys/plugins/features/heg/index'
 
-// Feedback
-import * as robotFeedbackPlugin from './src/packages/neuro.sys/plugins/feedback/robot/index'
-import * as textFeedbackPlugin from './src/packages/neuro.sys/plugins/feedback/text/index'
-import * as brightnessFeedbackPlugin from './src/packages/neuro.sys/plugins/feedback/brightness/index'
-import * as cursorFeedbackPlugin from './src/packages/neuro.sys/plugins/feedback/cursor/index'
-import spotifyFeedbackPlugin from './src/packages/neuro.sys/plugins/feedback/spotify/index'
-import inspectFeedbackPlugin from './src/packages/neuro.sys/plugins/feedback/inspect/index'
+// Output
+import * as robotOutputPlugin from './src/packages/neuro.sys/plugins/outputs/robot/index'
+import * as textOutputPlugin from './src/packages/neuro.sys/plugins/outputs/text/index'
+import * as brightnessOutputPlugin from './src/packages/neuro.sys/plugins/outputs/brightness/index'
+import * as cursorOutputPlugin from './src/packages/neuro.sys/plugins/outputs/cursor/index'
+import spotifyOutputPlugin from './src/packages/neuro.sys/plugins/outputs/spotify/index'
+import inspectOutputPlugin from './src/packages/neuro.sys/plugins/outputs/inspect/index'
 
 // Scores
 import * as hegScorePlugin from './src/packages/neuro.sys/plugins/scores/heg/index'
@@ -44,7 +44,7 @@ const config = {
     icon: "./src/assets/icon.png",
 
     pages: {
-        // spotify: './src/plugins/feedback/spotify/index.html',
+        // spotify: './src/plugins/outputs/spotify/index.html',
     },
 
     electron: {
@@ -74,15 +74,15 @@ const config = {
             hegRatio: hegRatioPlugin,
         }),
 
-        ...registerFeedbackPlugins({
-            textFeedback: textFeedbackPlugin,
-            cursorFeedback: cursorFeedbackPlugin,
-            brightnessFeedback: brightnessFeedbackPlugin,
-            // inspectFeedback: inspectFeedbackPlugin,
+        ...registerOutputPlugins({
+            textOutput: textOutputPlugin,
+            cursorOutput: cursorOutputPlugin,
+            brightnessOutput: brightnessOutputPlugin,
+            // inspectOutput: inspectOutputPlugin,
             
             // // Experimental Plugins
-            // spotifyFeedback: spotifyFeedbackPlugin
-            // robotFeedback: robotPlugin,
+            // spotifyOutput: spotifyOutputPlugin
+            // robotOutput: robotPlugin,
 
         }),
 
