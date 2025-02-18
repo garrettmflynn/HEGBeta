@@ -1,11 +1,11 @@
 {
-    "name": "@neuro.sys/bands",
+    "name": "@neuro.sys/text",
     "version": "0.0.0",
     "private": true,
     "keywords": [
-        "features"
+        "output"
     ],
     "devDependencies": {
-        "timefreak": "file:../../../../timefreak"
+        "lit": "^3.2.1"
     }
 }
