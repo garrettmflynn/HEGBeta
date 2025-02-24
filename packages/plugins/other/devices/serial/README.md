@@ -1,1 +1,0 @@
-Adapted from Commoners Serial plugin
