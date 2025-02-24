@@ -2,9 +2,11 @@
 export default {
     load() {
         return {
-            id: 'HEG',
+            id: 'heg',
             devices: [ 'HEG' ],
-            calculate({ data, window }) {
+            calculate({ data, sfreq }) {
+
+                const window = [ -2 * sfreq ] // Last 2 seconds
 
                 const averaged =  Object.entries(data).reduce((acc, [ch, chData]) => {
                     const sliced = chData.slice(...window)
