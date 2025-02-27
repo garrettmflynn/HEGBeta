@@ -1,8 +1,11 @@
 import { registerDevicePlugins, registerOutputPlugins } from 'neurosys/commoners'
 import { devices, outputs, system } from 'neurosys/features'
 
+import * as customPlugins from "./src/plugins"
 
-const DEBUG = false
+
+const DEBUG = true
+// const DEBUG = false
 
 const config = {
     name: "HEGBeta",
@@ -30,7 +33,8 @@ const config = {
 
         ...registerOutputPlugins({
             cursor: outputs.cursor,
-            brightnesss: outputs.brightness
+            brightnesss: outputs.brightness,
+            ...customPlugins.outputs
         })
     }
 }

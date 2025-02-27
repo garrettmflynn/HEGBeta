@@ -6,27 +6,21 @@ import type { DeviceListProps } from './DeviceList';
 import { DeviceList } from './DeviceList';
 
 const exampleDeviceList = [
-    { name: 'EEG Device', protocols: { generate: "Generate", load: { label: "Load File", enabled: false } }, category: 'EEG' },
-    { name: 'EMG Device', protocols: { generate: "Generate" }, category: 'EMG' },
-    { name: 'ECG Device', protocols: { generate: "Generate" }, category: 'ECG' },
-    { name: 'Misc Device', protocols: { generate: "Generate" }, category: 'Misc' },
+    { 
+      name: "HEGduino",
+      type: "HEG",
+      protocols: {
+          ble: { label: 'Bluetooth' },
+          serial: { label: 'USB' }
+      }
+    }
 ]
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 const meta = {
   title: 'App/Devices',
   tags: ['autodocs'],
-  render: (args) => new DeviceList(args),
-  argTypes: {
-    // backgroundColor: { control: 'color' },
-    // size: {
-    //   control: { type: 'select' },
-    //   options: ['small', 'medium', 'large'],
-    // },
-  },
-  args: { 
-    // onClick: fn() 
-  },
+  render: (args) => new DeviceList(args)
 } satisfies Meta<DeviceListProps>;
 
 export default meta;

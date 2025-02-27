@@ -6,9 +6,9 @@ import type { DeviceDiscoveryListProps } from './DeviceDiscoveryList';
 import { DeviceDiscoveryList } from './DeviceDiscoveryList';
 
 const exampleDeviceList = [
-    { id: 'id1', name: 'Device-1' },
-    { id: 'id2', name: 'Device-2' },
-    { id: 'id3', name: 'Device-3' },
+    { id: 'heg1', name: 'HEG 1' },
+    { id: 'heg2', name: 'HEG 2' },
+    { id: 'heg3', name: 'HEG 3' },
 ]
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
