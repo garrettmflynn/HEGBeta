@@ -1,75 +1,113 @@
 import './style.css'
 
-import { score, outputs, features, getClient, setValueInSettings, readyToOutputFeedback } from 'neurosys'
+import { score, outputs, setValueInSettings, setDeviceRequestHandler, setDeviceDiscoveryHandler, registerPlugins, getAllServerSidePlugins, loadSettings } from 'neurosys'
+import { DeviceList, DeviceDiscoveryList, createModal } from './ui'
+import { calculate } from './calculate'
+
+
+const { SERVICES, READY } = commoners
 
 const UPDATE_INVERVAL = 250
 
-let scoreNormalization = {
-  min: 0,
-  max: 1
-}
+READY.then(async (PLUGINS) => {
 
-const calculate = async (
-  client: any = getClient(),
-) => {
+  await registerPlugins(PLUGINS)
 
-  // Request the current score plugin
-  const plugin = await score.getActivePlugin()
+  // Register all service plugins
+  // NOTE: Declaring this after the main plugins ensures that the main plugins are loaded with priority
+  const urlsByService = Object.entries(SERVICES).reduce((acc, [key, value]) => ({ ...acc, [key]: value.url }), {})
+  const servicePlugins = await getAllServerSidePlugins(urlsByService)
+  for (const serviceName in servicePlugins) {
+    const plugins = servicePlugins[serviceName]
+    await registerPlugins(plugins)
+  }
 
-  if (!plugin) return
+  // Load settings after all services are available
+  loadSettings()
 
-  // Use score plugin to define the features to calculate
-  const calculatedFeatures = await features.calculate(plugin.features, client)
+  // Start calculating
+  setInterval(calculate, UPDATE_INVERVAL)
 
-  // Calculate a score from the provided features
-  const calculatedScore = await score.calculate(calculatedFeatures)
-
-
-  // Normalize the score between 0 and 1
-  if (calculatedScore < scoreNormalization.min) scoreNormalization.min = calculatedScore
-  if (calculatedScore > scoreNormalization.max) scoreNormalization.max = calculatedScore
-
-  const { min, max } = scoreNormalization
-  const normalizedScore = Math.max(0, Math.min(1, (calculatedScore - min) / (max - min)))
-
-  // Set the feedback from the calculated score and features
-  outputs.set(normalizedScore, calculatedFeatures)
-
-
-}
-
-
-readyToOutputFeedback.then(() => setInterval(calculate, UPDATE_INVERVAL))
-
-score.onToggle(async (key, enabled) => {
-  const plugins = await score.getPlugins()
-  const ref = plugins[key]
-  ref.enabled = enabled
-  await setValueInSettings(`score.${key}.enabled`, enabled)
-  calculate() // Set the plugin score immediately when toggled
 })
 
 outputs.onToggle(async (key, enabled) => {
 
-      const plugins = await outputs.getPlugins()
-      const ref = plugins[key]
+  const ref = outputs.getPlugin(key)
 
-      const { start, stop, __info, __score } = ref
-    
-      const toggledFromPrevState = enabled == !ref.enabled
+  if (!ref) return
 
-      const hasNotChanged = !enabled && !toggledFromPrevState
+  const { __info, __latest } = ref
 
-      const callback = enabled ? start : stop
-      if (callback && !hasNotChanged) ref.__info = (await callback(__info)) ?? {}
+  const toggledFromPrevState = enabled == !ref.enabled
 
-      // Ensure the appropriate callback is called before the state is toggled
-      ref.enabled = enabled
-      await setValueInSettings(`outputs.${key}.enabled`, enabled)
+  const hasNotChanged = !enabled && !toggledFromPrevState
 
-      if (hasNotChanged) return
-      if (__score === null) return
-      if (!enabled) return
+  const callback = enabled ? 'start' : 'stop'
+  const info = (ref[callback] && !hasNotChanged) ? (ref.__info = (await ref[callback](__info)) ?? {}) : __info
 
-      ref.set(__score, ref.__info) // Set the plugin score immediately when toggled
+  // Ensure the appropriate callback is called before the state is toggled
+  const state = outputs.togglePlugin(key, enabled)
+  await setValueInSettings(`outputs.${key}.enabled`, state)
+
+  if (hasNotChanged) return
+  if (!state) return
+
+  ref.set(__latest, info) // Set the plugin score immediately when toggled
+})
+
+
+setDeviceRequestHandler(async (devices) => {
+
+  return new Promise((resolve, reject) => {
+
+    const list = new DeviceList({
+      devices,
+
+      // Success
+      onSelect: async (device, protocol) => {
+        resolve({ device, protocol })
+        modal.close()
+      }
+    })
+
+    const modal = createModal({ title: 'Neurofeedback Devices', content: list })
+
+    modal.addEventListener('close', () => {
+      modal.remove()
+      reject('No device selected')
+    })
+
+    document.body.append(modal)
+    modal.showModal()
   })
+
+})
+
+
+setDeviceDiscoveryHandler(async (onSelect) => {
+
+    let device = '';
+
+    const onModalClosed = () => {
+      onSelect(device)
+      modal.remove()
+    }
+
+    const list = new DeviceDiscoveryList({ 
+      emptyMessage: 'Searching...',
+      onSelect: (deviceId) => {
+        device = deviceId
+        modal.close()
+      } 
+    })
+  
+    const modal = createModal({ title: 'Discovered USB Devices',  content: list })
+    document.body.append(modal)
+    modal.showModal()
+
+    modal.addEventListener('close', onModalClosed)
+  
+    
+    return (devices) => list.devices = devices
+
+})
