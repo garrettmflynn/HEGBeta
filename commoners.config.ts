@@ -4,8 +4,8 @@ import { devices, outputs, system } from 'neurosys/features'
 import * as customPlugins from "./src/plugins"
 
 
-const DEBUG = true
-// const DEBUG = false
+// const DEBUG = true
+const DEBUG = false
 
 const config = {
     name: "HEGBeta",

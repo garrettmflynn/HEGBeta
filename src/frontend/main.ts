@@ -1,8 +1,18 @@
 import './style.css'
 
-import { outputs, setValueInSettings, setDeviceRequestHandler, setDeviceDiscoveryHandler, registerPlugins, getAllServerSidePlugins, loadSettings } from 'neurosys'
+import { Protocol,  getClient, outputs, setValueInSettings, setDeviceRequestHandler, setDeviceDiscoveryHandler, registerPlugins, getAllServerSidePlugins, loadSettings } from 'neurosys'
+import { features as featurePlugins, scores as scorePlugins } from 'neurosys/features'
 import { DeviceList, DeviceDiscoveryList, createModal } from './ui'
-import { runCalculation } from './calculate'
+
+
+
+const protocol = new Protocol({ heg: featurePlugins.heg }) // Only include the HEG feature
+
+const runCalculation = () => {
+  if (!protocol) return
+  const client = getClient()
+  return protocol.calculate(client, scorePlugins.heg) // Only calculate the HEG score
+}
 
 
 const { SERVICES, READY } = commoners
