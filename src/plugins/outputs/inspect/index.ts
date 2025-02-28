@@ -28,9 +28,13 @@ export default new Output({
     stop({ container }) {
         container.remove()
     },
-    set({ heg }, info) {
+    set({ score, heg }, info) {
+        
         const { heg: hegEl } = info
-        console.log(heg, info)
-        if (heg) hegEl.data = heg
+        
+        if (heg) hegEl.data = {
+            score,
+            ...heg
+        }
     }
 })

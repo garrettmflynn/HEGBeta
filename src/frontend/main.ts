@@ -1,8 +1,8 @@
 import './style.css'
 
-import { score, outputs, setValueInSettings, setDeviceRequestHandler, setDeviceDiscoveryHandler, registerPlugins, getAllServerSidePlugins, loadSettings } from 'neurosys'
+import { outputs, setValueInSettings, setDeviceRequestHandler, setDeviceDiscoveryHandler, registerPlugins, getAllServerSidePlugins, loadSettings } from 'neurosys'
 import { DeviceList, DeviceDiscoveryList, createModal } from './ui'
-import { calculate } from './calculate'
+import { runCalculation } from './calculate'
 
 
 const { SERVICES, READY } = commoners
@@ -26,7 +26,7 @@ READY.then(async (PLUGINS) => {
   loadSettings()
 
   // Start calculating
-  setInterval(calculate, UPDATE_INVERVAL)
+  setInterval(runCalculation, UPDATE_INVERVAL)
 
 })
 
